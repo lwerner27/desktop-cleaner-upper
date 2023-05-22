@@ -17,6 +17,18 @@ def get_current_monday():
         # If today is after Monday go back to monday to get the date
         monday = today - timedelta(days=(today.weekday()))
         return "%d-%d-%d" % (monday.year, monday.month, monday.day)
+    
+
+# TODO 
+# Create function to check for the desktop directory corresponding to Monday's Date
+# If the directory does not exist create it otherwise do nothing
+
+# TODO 
+# Create a function to move all files (not directories) from the desktop to the dreated directory
+
+# TODO
+# Create an optional function to compress a specified directory and remove the original 
+# This function will be dependent on an arguement getting passed during execution
 
 # Get the date for Monday of this week 
 monday = get_current_monday()
