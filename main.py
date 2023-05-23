@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from sys import platform
 import os
 import getpass
+import shutil
 
 # A function to get the date for Monday of the current week. 
 def get_current_monday():
@@ -32,14 +33,12 @@ def create_cleanup_dir(cleanup_dir):
     if not os.path.isdir(cleanup_dir):
         os.mkdir(cleanup_dir)
 
-# TODO 
-# Create a function to move all files (not directories) from the desktop to the dreated directory
+# A function to move all files (not directories) from the desktop to the dreated directory
 def move_desktop_files(desktop_path, monday): 
     for entry in os.listdir(desktop_path):
-        if os.path.isfile(os.path.join(desktop_path, entry)):
-            print("%s is a file" % entry) 
-        else: 
-            print("%s is not a file" % entry)
+        entry_path = os.path.join(desktop_path, entry)
+        if os.path.isfile(entry_path):
+            shutil.move(entry_path, os.path.join(desktop_path, monday, entry))
 
 # TODO
 # Create an optional function to compress a specified directory and remove the original 
