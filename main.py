@@ -23,10 +23,9 @@ def get_current_monday():
         return "%d-%d-%d" % (monday.year, monday.month, monday.day)
 
 # Function that generates the path that should be used for the desktop cleanup
-def generate_desktop_path(monday_date):
-    current_user = getpass.getuser()
+def generate_desktop_path(user):
     if platform == "darwin":
-        return "/Users/%s/Desktop/%s" % (current_user, monday_date)
+        return "/Users/%s/Desktop" % user
     
 # A function that creates the cleanup directory if it doesn't exist
 def create_cleanup_dir(cleanup_dir):
@@ -35,6 +34,12 @@ def create_cleanup_dir(cleanup_dir):
 
 # TODO 
 # Create a function to move all files (not directories) from the desktop to the dreated directory
+def move_desktop_files(desktop_path, monday): 
+    for entry in os.listdir(desktop_path):
+        if os.path.isfile(os.path.join(desktop_path, entry)):
+            print("%s is a file" % entry) 
+        else: 
+            print("%s is not a file" % entry)
 
 # TODO
 # Create an optional function to compress a specified directory and remove the original 
@@ -44,7 +49,10 @@ def create_cleanup_dir(cleanup_dir):
 monday = get_current_monday()
 
 # Generate the path for the cleanup directory
-cleanup_dir = generate_desktop_path(monday)
+desktop_path = generate_desktop_path(getpass.getuser())
 
 # Create the clean up directory if it does not exist
-create_cleanup_dir(cleanup_dir)
+create_cleanup_dir(os.path.join(desktop_path, monday))
+
+# Moves files (not directories) to the directory for the current week
+move_desktop_files(desktop_path, monday)
