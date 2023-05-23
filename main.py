@@ -1,12 +1,16 @@
 from datetime import datetime, timedelta
+from sys import platform
+import os
+import getpass
 
+# A function to get the date for Monday of the current week. 
 def get_current_monday():
     
     # Get todays date
     today = datetime.today()
     
     if today.weekday() == 6:
-        #If today is Sunday go to the next day to get the date
+        # If today is Sunday go to the next day to get the date
         monday = today + timedelta(days=1)
         return "%d-%d-%d" % (monday.year, monday.month, monday.day)
     elif today.weekday() == 0:
@@ -17,11 +21,17 @@ def get_current_monday():
         # If today is after Monday go back to monday to get the date
         monday = today - timedelta(days=(today.weekday()))
         return "%d-%d-%d" % (monday.year, monday.month, monday.day)
-    
 
-# TODO 
-# Create function to check for the desktop directory corresponding to Monday's Date
-# If the directory does not exist create it otherwise do nothing
+# Function that generates the path that should be used for the desktop cleanup
+def generate_desktop_path(monday_date):
+    current_user = getpass.getuser()
+    if platform == "darwin":
+        return "/Users/%s/Desktop/%s" % (current_user, monday_date)
+    
+# A function that creates the cleanup directory if it doesn't exist
+def create_cleanup_dir(cleanup_dir):
+    if not os.path.isdir(cleanup_dir):
+        os.mkdir(cleanup_dir)
 
 # TODO 
 # Create a function to move all files (not directories) from the desktop to the dreated directory
@@ -32,3 +42,9 @@ def get_current_monday():
 
 # Get the date for Monday of this week 
 monday = get_current_monday()
+
+# Generate the path for the cleanup directory
+cleanup_dir = generate_desktop_path(monday)
+
+# Create the clean up directory if it does not exist
+create_cleanup_dir(cleanup_dir)
